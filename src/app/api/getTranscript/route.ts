@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { YoutubeTranscript } from "youtube-transcript";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { getSubtitles } from "youtube-captions-scraper";
 
 export async function POST(request: Request) {
   try {
@@ -34,10 +34,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const transcripts = await YoutubeTranscript.fetchTranscript(url);
-    const transcript = transcripts.map((item) => item.text).join(" ");
+    const videoID = url.split("v=")[1];
+    if (!videoID) {
+      return NextResponse.json(
+        { error: "Invalid YouTube URL" },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json({ transcript });
+    const captions = await getSubtitles({
+      videoID: videoID,
+      lang: "en",
+    });
+
+    const caption = captions.map((c) => c.text).join("");
+
+    return NextResponse.json({ transcript: caption });
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({ error: `${error.message}` }, { status: 500 });
