@@ -30,7 +30,7 @@ const formSchema = z.object({
 });
 
 const YoutubeForm = () => {
-  const prompt = `Your output should use the following template:\n### Summary\n### Analogy\n### Notes\n- [Emoji] Bulletpoint\n### Keywords\n- Explanation\n### Score\nMake a concise summary of the transcript, including keywords and a short analogy to provide context. Create 10 bullet points summarizing key moments, and extract important keywords with explanations.\n\nTranscript: `;
+  const prompt = `Your output should use the following template:\n### Summary\n### Analogy\n### Notes\n- Bulletpoint\n### Keywords\n- Explanation\n### Score\nMake a concise summary of the transcript, including keywords and a short analogy to provide context. Create 10 bullet points summarizing key moments, and extract important keywords with explanations.\n\nTranscript: `;
 
   const [transcript, setTranscript] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
