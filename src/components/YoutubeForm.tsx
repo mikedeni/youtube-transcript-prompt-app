@@ -53,6 +53,7 @@ const YoutubeForm = () => {
       });
       setTranscript(`"${data.transcript}"`);
       setCopyText("Copy Prompt With Transcript");
+      form.resetField("youtubeUrl");
       toast("✅ Prompt generated successfully!");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -95,7 +96,7 @@ const YoutubeForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={loading}>
+          <Button type="submit" disabled={loading || !form.watch("youtubeUrl")}>
             {loading ? "Loading..." : "Generate Prompt"}
           </Button>
         </form>
